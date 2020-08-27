@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/DesignrKnight/graphlql-blog#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.3.0"
   }
 }
