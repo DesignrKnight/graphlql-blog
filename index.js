@@ -1,10 +1,16 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./schema/schema');
-
+const mongoose = require('mongoose');
+require('dotenv').config()
 
 
 const app = express();
+
+mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connection.once('open', ()=>{
+    console.log("Connected to MongoDB")
+})
 
 app.use(
     "/graphql",
@@ -23,4 +29,4 @@ var articles = [
     { name: 'Linting in Node.js using ESLint', topic: 'Node.js', date: '2020-08-24T00:00:00Z', id:3},
     { name: 'REST APIs - Introductory guide', topic: 'API', date: '2020-06-26T00:00:00Z', id:4}
 ]
-console.log(articles)
+//console.log(articles)
