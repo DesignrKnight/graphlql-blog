@@ -1,9 +1,11 @@
 const graphql = require('graphql');
 const _ = require('lodash');
-
+const Article = require('../models/article');
+const Contributor = require('../models/contributor');
 
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLSchema } = graphql;
 
+/*
 let articles = [
     { name: 'The History of Node.js', topic: 'Node.js', date: '2020-08-25T00:00:00Z', id:"1", contributorId:"1"},
     { name: 'Understanding Docker Concepts', topic: 'Containers', date: '2020-07-23T00:00:00Z', id:"2", contributorId:"2"},
@@ -15,6 +17,7 @@ let contributors = [
     { name: 'John Doe', url: '/john-doe', major: 'Computer Science', id:"1"},
     { name: 'Jane Doe', url: '/jane-doe', major: 'Physics', id:"2"},
 ];
+*/
 
 const ArticleType = new GraphQLObjectType({
     name: 'Article',
@@ -27,7 +30,7 @@ const ArticleType = new GraphQLObjectType({
         contributor:{
             type: ContributorType,
             resolve(parent,args){
-                return _.find(contributors,{id:parent.contributorId})
+//                return _.find(contributors,{id:parent.contributorId})
             }
         }
     })
@@ -43,7 +46,7 @@ const ContributorType = new GraphQLObjectType({
         articles:{
             type: new GraphQLList(ArticleType),
             resolve(parent,args){
-                return _.filter(articles, {contributorId:parent.id})
+//                return _.filter(articles, {contributorId:parent.id})
             }
         }
     })
@@ -70,14 +73,14 @@ const RootQuery = new GraphQLObjectType({
             type: new GraphQLList(ArticleType),
             args: {topic:{type: GraphQLString}},
             resolve(parent,args){
-                return _.filter(articles,{'topic':args.topic})
+//                return _.filter(articles,{'topic':args.topic})
             }
         },
         contributor: {
             type: ContributorType,
             args: {id:{type: GraphQLID}},
             resolve(parent,args){
-                return _.find(contributors,{'id':args.id})
+//                return _.find(contributors,{'id':args.id})
             }
         },
     }
