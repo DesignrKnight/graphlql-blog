@@ -30,6 +30,7 @@ const ArticleType = new GraphQLObjectType({
         contributor:{
             type: ContributorType,
             resolve(parent,args){
+                return Contributor.findById(parent.contributorId);
 //                return _.find(contributors,{id:parent.contributorId})
             }
         }
@@ -46,6 +47,7 @@ const ContributorType = new GraphQLObjectType({
         articles:{
             type: new GraphQLList(ArticleType),
             resolve(parent,args){
+                return Article.find({contributorId:parent.id})
 //                return _.filter(articles, {contributorId:parent.id})
             }
         }
@@ -66,13 +68,15 @@ const RootQuery = new GraphQLObjectType({
             type: ArticleType,
             args: {id:{type: GraphQLID}},
             resolve(parent,args){
-                return _.find(articles,{'id':args.id})
+                return Article.findById(args.id)
+//                return _.find(articles,{'id':args.id})
             }
         },
         articleByTopic: {
             type: new GraphQLList(ArticleType),
             args: {topic:{type: GraphQLString}},
             resolve(parent,args){
+                return Article.find({'topic':args.topic})
 //                return _.filter(articles,{'topic':args.topic})
             }
         },
@@ -80,6 +84,7 @@ const RootQuery = new GraphQLObjectType({
             type: ContributorType,
             args: {id:{type: GraphQLID}},
             resolve(parent,args){
+                return Contributor.findById(args.id)
 //                return _.find(contributors,{'id':args.id})
             }
         },
