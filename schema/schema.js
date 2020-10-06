@@ -65,10 +65,13 @@ const RootQuery = new GraphQLObjectType({
             }
         },
         article: {
-            type: ArticleType,
+            type: new GraphQLList(ArticleType),
             args: {id:{type: GraphQLID}},
             resolve(parent,args){
-                return Article.findById(args.id)
+                if(!args.id){
+                    return Article.find({});
+                }
+                return Article.find({'_id': args.id})
 //                return _.find(articles,{'id':args.id})
             }
         },
