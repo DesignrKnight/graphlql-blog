@@ -56,7 +56,7 @@ const ContributorType = new GraphQLObjectType({
 
 
 const RootQuery = new GraphQLObjectType({
-    name: 'RootQueryType',
+    name: 'RootQuery',
     fields: {
         status: {
             type: GraphQLString,
@@ -91,6 +91,47 @@ const RootQuery = new GraphQLObjectType({
     }
 });
 
+const Mutation = new GraphQLObjectType({
+    name: 'Mutations',
+    fields: {
+        addArticle: {
+            type: ArticleType,
+            args: {
+                name:{type: GraphQLString},
+                topic:{type: GraphQLString},
+                date: {type: GraphQLString},
+                contributorId: {type: GraphQLID}
+            },
+            resolve(parent,args){
+                let article=new Article({
+                    name: args.name,
+                    topic: args.topic,
+                    date:args.date,
+                    contributorId:args.contributorId
+                })
+                return article.save();
+            }
+        },
+        addContributor: {
+            type: ContributorType,
+            args: {
+                name:{type: GraphQLString},
+                major:{type: GraphQLString},
+                url: {type: GraphQLString}
+            },
+            resolve(parent,args){
+                let contributor= new Contributor({
+                    name:args.name,
+                    major:args.major,
+                    url:args.url
+                })
+                return contributor.save();
+            }
+        }
+    }
+})
+
 module.exports = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: Mutation
 });
