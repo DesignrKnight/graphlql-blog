@@ -3,7 +3,7 @@ const _ = require('lodash');
 const Article = require('../models/article');
 const Contributor = require('../models/contributor');
 
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLSchema } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLSchema, GraphQLNonNull } = graphql;
 
 /*
 let articles = [
@@ -97,10 +97,10 @@ const Mutation = new GraphQLObjectType({
         addArticle: {
             type: ArticleType,
             args: {
-                name:{type: GraphQLString},
-                topic:{type: GraphQLString},
-                date: {type: GraphQLString},
-                contributorId: {type: GraphQLID}
+                name:{type: new GraphQLNonNull(GraphQLString)},
+                topic:{type: new GraphQLNonNull(GraphQLString)},
+                date: {type: new GraphQLNonNull(GraphQLString)},
+                contributorId: {type: new GraphQLNonNull(GraphQLID)}
             },
             resolve(parent,args){
                 let article=new Article({
@@ -115,9 +115,9 @@ const Mutation = new GraphQLObjectType({
         addContributor: {
             type: ContributorType,
             args: {
-                name:{type: GraphQLString},
+                name:{type: new GraphQLNonNull(GraphQLString)},
                 major:{type: GraphQLString},
-                url: {type: GraphQLString}
+                url: {type: new GraphQLNonNull(GraphQLString)}
             },
             resolve(parent,args){
                 let contributor= new Contributor({
